@@ -43,7 +43,7 @@ class LetterBoxSolver:
         """
         words = []
         self._dfs_words(letter.upper(), letter.upper(), words, min_length, max_length)
-        return words[:50]  # Limit to first 50 words to avoid excessive computation
+        return words[:200]  # Increased limit to find more words like 'priding'
     
     def _dfs_words(self, current_path, current_letter, words, min_length, max_length=15):
         """
@@ -114,7 +114,8 @@ class LetterBoxSolver:
 
         # Find words starting with current_letter (or any letter if starting)
         if not word_sequence:  # Starting state
-            start_letters = sorted(target_letters)[:6]  # Limit starting letters for performance
+            # Use the specific starting letter passed to this call
+            start_letters = [current_letter]
         else:
             # Must start with last letter of previous word
             start_letters = [current_letter]
@@ -122,7 +123,7 @@ class LetterBoxSolver:
         for start_letter in start_letters:
             words = self.find_words_starting_with(start_letter, min_word_length)
             
-            for word in words[:20]:  # Limit words tried per starting letter
+            for word in words[:100]:  # Increased limit to try more words per starting letter
                 word_upper = word.upper()
                 
                 # Check if word uses only puzzle letters and follows ATM rules
